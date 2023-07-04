@@ -1,22 +1,19 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-  <div id="app">
-    <CSVUploader />
+  <div class="Start">
+    <h1>Welcome to my game</h1>
+    <GameInstruction msg="Game Instruction" />
   </div>
 </template>
 
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import CSVUploader from "@/components/CSVUploader.vue";
+import GameInstruction from "@/components/GameInstruction.vue";
 
 export default defineComponent({
   name: 'AboutView',
   components: {
-    CSVUploader
+    GameInstruction,
   },
 });
-
 </script>

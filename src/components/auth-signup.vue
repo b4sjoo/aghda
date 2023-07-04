@@ -1,5 +1,5 @@
 <template>
-  <authenticator :social-providers="['google']" style="padding: 128px">
+  <authenticator style="padding: 128px">
     <template v-slot="{ user, signOut }">
       <h1>Hello {{ user.username }}!</h1>
       <button @click="getJwtToken">print JWT</button>
