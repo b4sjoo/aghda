@@ -12,7 +12,7 @@ export default defineComponent({
   name: 'CountdownView',
   data() {
         return {
-            countDownToTime: "Jul 8, 2023 00:00:00",
+            countDownToTime: "Jul 8, 2023 02:20:00",
             time: ''
         };
     },

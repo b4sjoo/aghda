@@ -1,7 +1,6 @@
 <template>
   <div class="Start">
-    <h1>Welcome to my game</h1>
-    <GameInstruction msg="Game Instruction" />
+    <GameInstruction msg="Welcome to my game" />
   </div>
 </template>
 

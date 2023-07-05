@@ -52,11 +52,6 @@
     </div>
 
   <main>
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
   <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" data-bs-theme="light">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -158,8 +153,8 @@
       <div class="col-md-5">
         <img alt="startingpoint"
              src="@/assets/startingpoint.png"
-             width="500"
-             height="500"/>
+             width="400"
+             height="400"/>
       </div>
     </div>
 
@@ -173,8 +168,8 @@
       <div class="col-md-5 order-md-1">
         <img alt="victorian"
              src="@/assets/victorian.png"
-             width="500"
-             height="500"/>
+             width="400"
+             height="400"/>
       </div>
     </div>
 
@@ -188,8 +183,8 @@
       <div class="col-md-5">
         <img alt="sapphire"
              src="@/assets/sapphire.png"
-             width="500"
-             height="500"/>
+             width="400"
+             height="400"/>
       </div>
     </div>
 
@@ -203,8 +198,8 @@
       <div class="col-md-5 order-md-1">
         <img alt="tarot"
              src="@/assets/tarot.png"
-             width="500"
-             height="500"/>
+             width="400"
+             height="400"/>
       </div>
     </div>
 

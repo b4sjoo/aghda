@@ -17,6 +17,7 @@
     "bootstrap-icons": "^1.10.4",
     "bootstrap-vue": "^2.23.1",
     "dayjs": "^1.11.9",
+    "uuid": "^9.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
