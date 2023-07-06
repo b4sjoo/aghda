@@ -1,9 +1,22 @@
 <template>
-  <authenticator style="padding: 128px">
-    <template v-slot="{ user, signOut }">
-      <h1>Hello {{ user.username }}!</h1>
-      <button @click="getJwtToken">print JWT</button>
-      <button @click="signOut">Sign Out</button>
+  <authenticator :social-providers="['google']" style="padding: 128px">
+    <template v-slot="{ signOut }">
+      <div class="container">
+    <div class="text-center contact">
+      <h2>Welcome back player! Please choose between</h2>
+    </div>
+    <div class="row g-5 justify-content-around">
+      <div class="col-lg-3">
+        <a class="btn btn-large btn-primary" href="https://aghda.net/about" role="button">See the instruction</a>
+      </div>
+      <div class="col-lg-3">
+        <a class="btn btn-large btn-success" href="https://aghda.net/contact" role="button">Submit contact forms</a>
+      </div>
+      <div class="col-lg-3">
+        <button class="btn btn-large btn-danger" @click="signOut">Sign Out</button>
+      </div>
+    </div>
+  </div>
     </template>
   </authenticator>
 </template>
@@ -37,3 +50,11 @@ async function getJwtToken() {
   }
 }
 </script>
+
+<style>
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+template .guides {
+  margin: 50 px;
+}
+</style>

@@ -1,0 +1,202 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  aghda
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+- AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'Origin,X-Requested-With,Accept,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      AllowOrigin: "'https://aghda.net'"
+      AllowCredentials: true
+##    Auth:
+#      DefaultAuthorizer: MyCognitoAuth
+##      Authorizers:
+##        MyLambdaTokenAuth:
+##          FunctionArn: !GetAtt authorizeUserFunction.Arn
+#        MyCognitoAuth:
+#          UserPoolArn: arn:aws:cognito-idp:us-west-2:607950476168:userpool/us-west-2_zs3kXHjja
+#          AuthorizationScopes:
+#            - https://lqhygpklr4.execute-api.us-west-2.amazonaws.com/Prod/read:table
+#            - https://lqhygpklr4.execute-api.us-west-2.amazonaws.com/Prod/write:table
+#          Identity:
+#            Header: Authorization
+#            ValidationExpression: Bearer [a-zA-Z0-9-_.]+
+  Function:
+    VpcConfig:
+      SecurityGroupIds: 
+        - sg-076353c00829dae15
+      SubnetIds: 
+        - subnet-045a06dc443151944
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+ # unauthorized4xxResponse:
+ #   Type: AWS::ApiGateway::GatewayResponse
+ #   Properties:
+ #     ResponseParameters:
+ #       "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
+ #       "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+ #     ResponseType: "DEFAULT_4XX"
+ #     RestApiId:
+ #       Ref: "ServerlessRestApi"
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+ ## authorizeUserFunction:
+ ##   Type: AWS::Serverless::Function
+ ##   Properties:
+ ##     Handler: src/handlers/authorize-user.authorizerHandler
+ ##     Runtime: nodejs18.x
+ ##     Architectures:
+ ##       - arm64
+ ##     MemorySize: 128
+ ##     Timeout: 100
+ ##     Description: A simple example includes a HTTP post method to verify JWT token granted through AWS Cognito.
+     # FunctionUrlConfig:
+     #   AuthType: NONE
+     #   Cors:
+     #     AllowHeaders:
+     #       - "'*'" 
+     #     AllowOrigins: 
+     #       - "https://aghda.net"
+  # This is a Lambda function config associated with the source code: get-all-items.js
+  getAllItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SampleTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref SampleTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+           ## Auth:
+           ##   Authorizer: MyLambdaTokenAuth
+
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  getByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-by-id.getByIdHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SampleTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref SampleTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: GET
+
+  # This is a Lambda function config associated with the source code: delete-by-id.js
+  deleteByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/delete-by-id.deleteByIdHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP delete method to delete one item by id from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SampleTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref SampleTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: DELETE
+
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: put-item.js
+  putItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/put-item.putItemHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SampleTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref SampleTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+  
+  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+
+  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
+  SampleTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

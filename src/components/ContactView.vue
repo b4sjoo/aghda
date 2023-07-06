@@ -89,18 +89,21 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
+import { apiHTTPClient } from '@/app.services';
 
 export default defineComponent({
   data() {
     return {
       formData: {
+        id: uuidv4(), 
         email: '',
         category: '',
         clue: '',
         answertype: '',
         content: '',
+        timestamp: JSON.stringify(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })),
       },
-      apiEndpoint: 'http://localhost:8080/',
     };
   },
   methods: {
@@ -109,20 +112,12 @@ export default defineComponent({
         const jsonString = JSON.stringify(this.formData);
         console.log('Sending JSON data to the API Gateway:', jsonString);
 
-        const response = await fetch(this.apiEndpoint, {
-          method: 'POST',
-          headers: {
+        const response = await apiHTTPClient.post('/', jsonString,
+        {headers: {
             'Content-Type': 'application/json',
-          },
-          body: jsonString,
-        });
-
-        if (response.ok) {
-          alert('Form submitted successfully!');
-        } else {
-          alert('Error submitting form: ' + response.statusText);
-        }
-      } catch (error) {
+        }});
+        console.log(response);
+    } catch (error) {
         if (error instanceof Error) {
           alert('Error submitting form: ' + error.message);
         } else {
