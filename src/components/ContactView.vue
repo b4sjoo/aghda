@@ -96,20 +96,23 @@ export default defineComponent({
   data() {
     return {
       formData: {
-        id: uuidv4(), 
         email: '',
         category: '',
         clue: '',
         answertype: '',
         content: '',
-        timestamp: JSON.stringify(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })),
       },
     };
   },
   methods: {
     async handleSubmit(): Promise<void> {
       try {
-        const jsonString = JSON.stringify(this.formData);
+        const formDataWithIdAndTimeStamp = {
+          ...this.formData,
+          id: uuidv4(),  // Generate a new UUID for each submission
+          timestamp: JSON.stringify(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })), // Generate a new timestamp for each submission
+        };
+        const jsonString = JSON.stringify(formDataWithIdAndTimeStamp);
         console.log('Sending JSON data to the API Gateway:', jsonString);
 
         const response = await apiHTTPClient.post('/', jsonString,
