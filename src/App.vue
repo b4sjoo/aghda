@@ -18,7 +18,7 @@ import "bootstrap"
           </li>
           <li class="nav-item">
             <a class="nav-link">
-              <router-link to="/countdown" style="text-decoration: none">
+              <router-link to="/pending" style="text-decoration: none">
                 Start</router-link></a>
           </li>
           <li class="nav-item">
